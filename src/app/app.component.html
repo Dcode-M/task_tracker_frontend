@@ -1,12 +1,61 @@
 
-<div class="clock">
-  <div class="analog-clock">
-    <div class="hour hand" [ngStyle]="hourHandStyle"></div>
-    <div class="minute hand" [ngStyle]="minuteHandStyle"></div>
-    <div class="second hand" [ngStyle]="secondHandStyle"></div>
-    <div class="center-circle"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="clock" [ngStyle] = "wallStyle" >
+        <!-- <div class="digital-clock">{{format(hour)}}:{{format(minute)}}:{{format(second)}}</div> -->
+        <div class="analog-clock" [ngStyle] = "faceStyle" >
+          <div class="hour hand" [ngStyle]="hourHandStyle"></div>
+          <div class="minute hand" [ngStyle]="minuteHandStyle"></div>
+          <div class="second hand" [ngStyle]="secondHandStyle"></div>
+          <div class="center-circle"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-outline-success mt-3" (click) = getData()>
+        start servers
+      </button>
+      <div class="jumbotron mt-3">
+        <p> {{task_start_program_time}} - {{task_event_type}} {{number_of_servers_running}} serves </p>
+      </div>
+    </div>
   </div>
-  <div class="digital-clock">{{format(hour)}}:{{format(minute)}}:{{format(second)}}</div>
+  <div class="row mt-3">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-8">
+      <button class="btn btn-outline-primary mt-3" (click) = getReport()>
+        show server computation
+      </button>
+      <table class="table table-striped table-dark mt-3">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">PROGRAM TIME</th>
+            <th scope="col">EVENT</th>
+            <th scope="col">MESSAGE</th>
+            <th scope="col">ACTUAL TIME</th>
+            <th scope="col">DISPLAY MESSAGE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor = 'let report of report_from_django'>
+            <th scope="row">{{report.id}}</th>
+            <td>{{report.task_start_program_time}}</td>
+            <td>{{report.task_event_type}}</td>
+            <td>{{report.task_event_type}} {{report.number_of_servers_running}} servers</td>
+            <td>{{report.task_start_actual_time}}</td>
+            <td>{{report.task_start_program_time}} - {{report.task_event_type}} {{report.number_of_servers_running}} servers</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-2">
+
+    </div>
+  </div>
 </div>
 
 <router-outlet></router-outlet>
