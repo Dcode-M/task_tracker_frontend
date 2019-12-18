@@ -1,13 +1,15 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { DatareturnService } from './datareturn.service';
 import { ReportsService } from './reports.service';
+import { StartimeService } from './startime.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
 
   hourHandStyle;
   minuteHandStyle;
@@ -30,11 +32,11 @@ export class AppComponent implements AfterViewInit {
   hour: number;
   minute: number;
   second: number;
-  time:string = "2015-03-25T12:00:50";
+  time:string = "2015-03-25T12:00:00";
 
-  ngAfterViewInit() {
-    this.timerId = this.getTime();
-  }
+  // ngAfterViewInit() {
+  //   this.timerId = this.getTime();
+  // }
 
   animateAnalogClock() {
     
@@ -52,21 +54,29 @@ export class AppComponent implements AfterViewInit {
 
   }
 
+  constructor(private datareturnService : DatareturnService, private getreport : ReportsService,private startime : StartimeService) { }
   
-  // "2015-03-25T12:00:50"
 
   getTime() {
+    this.startime.startime().subscribe(
+      (res) => {
+        console.table('timer started')
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
     return setInterval(() => {
       this.date = new Date(this.time);
       this.hour = this.date.getHours();
       this.minute = this.date.getMinutes();
       this.second = this.date.getSeconds();
       this.animateAnalogClock();
+      this.time = this.date.setSeconds(this.date.getSeconds() + 1)
     }, 1000);
-    // this.second++;
+
   }
 
-  // this.second++;
 
   format(num: number) {
     return (num + '').length === 1 ? '0' + num : num + '';
@@ -74,7 +84,7 @@ export class AppComponent implements AfterViewInit {
 
   
 
-  constructor(private datareturnService : DatareturnService, private getreport : ReportsService) { }
+
 
 
   getData(){
