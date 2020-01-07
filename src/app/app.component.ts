@@ -32,7 +32,7 @@ export class AppComponent {
   hour: number;
   minute: number;
   second: number;
-  time:string = "2015-03-25T12:00:00";
+  time:any = "2015-03-25T12:00:00";
 
   // ngAfterViewInit() {
   //   this.timerId = this.getTime();
